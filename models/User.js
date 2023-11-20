@@ -26,20 +26,25 @@ module.exports = (sequelize, DataTypes) => {
       },
       gender: {
         type: DataTypes.ENUM,
-        values: ["Male", "Female"],
+        values: ["male", "female"],
+        allowNull: false,
       },
       status: {
         type: DataTypes.ENUM,
-        values: ["Single", "Married"],
+        values: ["single", "married"],
+        allowNull: false,
       },
       placeOfBirth: DataTypes.DATE,
       dateOfBirth: DataTypes.DATE,
       roles: {
         type: DataTypes.ENUM,
-        values: ["Patient", "AdminRS", "AdminSys"],
-        defaultValue: "Patient",
+        values: ["patient", "rsadmin", "sysadmin"],
+        defaultValue: "patient",
       },
-      address: DataTypes.TEXT,
+      address: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
