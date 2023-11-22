@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const { SECRET_KEY } = process.env;
 const { User } = require("../models");
-const { verifyToken } = require("../middleware/verifyToken");
+const verifyToken = require("../middleware/verifyToken");
 const Validator = require("fastest-validator");
 const v = new Validator();
 
@@ -83,18 +83,30 @@ router.post("/login", async (req, res) => {
     });
   }
 
-  const token = jwt.sign({ userId: user.id, email: user.email }, SECRET_KEY, {
+  user.token = jwt.sign({ userId: user.id, email: user.email }, SECRET_KEY, {
     expiresIn: "10h",
   });
 
-  await user.update(token);
+  await user.update(user.token);
 
   return res.status(200).json({
     message: "Successfully login",
     status: "Success",
     id: user.id,
-    token: token,
+    token: user.token,
   });
+});
+
+router.get("/:id", verifyToken, async (req, res) => {
+  const { id } = req.params;
+
+  const user = await User.findByPk(id);
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  res.status(200).json({ user, user: req.decoded });
 });
 
 module.exports = router;
