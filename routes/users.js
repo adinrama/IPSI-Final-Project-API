@@ -150,4 +150,32 @@ router.put("/:id", verifyToken, async (req, res) => {
   }
 });
 
+router.delete("/:id", verifyToken, async (req, res) => {
+  const { id } = req.params;
+
+  const user = await User.findByPk(id);
+
+  try {
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+        status: "Failed",
+      });
+    }
+
+    await user.destroy();
+
+    return res.status(201).json({
+      message: "User successfully deleted",
+      status: "Success",
+    });
+  } catch (err) {
+    console.error("Error:", err);
+    return res.status(500).json({
+      message: "An error occurred while delete user data",
+      status: "Error",
+    });
+  }
+});
+
 module.exports = router;
