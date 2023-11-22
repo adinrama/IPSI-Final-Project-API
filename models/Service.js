@@ -43,6 +43,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     { tableName: "services" }
   );
-};
 
-module.exports = Service;
+  return Service;
+};
