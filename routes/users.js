@@ -109,4 +109,45 @@ router.get("/:id", verifyToken, async (req, res) => {
   res.status(200).json({ user, user: req.decoded });
 });
 
+router.put("/:id", verifyToken, async (req, res) => {
+  const { id } = req.params;
+
+  const schema = {
+    fullName: "string|empty:false",
+    mobile: "string",
+    email: "string|email",
+    password: "string",
+    gender: "string",
+    status: "string",
+    address: "string",
+  };
+
+  const updatedAt = new Date().toISOString();
+
+  try {
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+        status: "Failed",
+      });
+    }
+
+    await user.update({ ...req.body, updatedAt });
+
+    return res.status(200).json({
+      message: "User data updated successfully",
+      status: "Success",
+      data: user,
+    });
+  } catch (err) {
+    console.error("Error:", err);
+    return res.status(500).json({
+      message: "An error occurred while editing user data",
+      status: "Error",
+    });
+  }
+});
+
 module.exports = router;
