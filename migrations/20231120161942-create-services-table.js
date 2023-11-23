@@ -12,23 +12,23 @@ module.exports = {
       },
       vaccin: {
         type: Sequelize.ENUM,
-        values: [true, false],
-        defaultValue: false,
+        values: ["yes", "no"],
+        defaultValue: "no",
       },
       pcrTest: {
         type: Sequelize.ENUM,
-        values: [true, false],
-        defaultValue: false,
+        values: ["yes", "no"],
+        defaultValue: "no",
       },
       rapidAntigenTest: {
         type: Sequelize.ENUM,
-        values: [true, false],
-        defaultValue: false,
+        values: ["yes", "no"],
+        defaultValue: "no",
       },
       genose: {
         type: Sequelize.ENUM,
-        values: [true, false],
-        defaultValue: false,
+        values: ["yes", "no"],
+        defaultValue: "no",
       },
       createdAt: {
         type: Sequelize.DATE,
