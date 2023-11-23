@@ -52,7 +52,6 @@ module.exports = {
       },
       servicesId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
           model: {
             tableName: "services",

@@ -42,10 +42,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: false,
       },
-      servicesId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
+      servicesId: DataTypes.INTEGER,
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
