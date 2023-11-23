@@ -50,6 +50,16 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
+      servicesId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            tableName: "services",
+          },
+          key: "id",
+        },
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
