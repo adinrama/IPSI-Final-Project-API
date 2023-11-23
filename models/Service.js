@@ -8,29 +8,25 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         allowNull: false,
       },
-      hospitalId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
       vaccin: {
         type: DataTypes.ENUM,
-        values: ["yes", "no"],
-        defaultValue: "no",
+        values: [true, false],
+        defaultValue: false,
       },
       pcrTest: {
         type: DataTypes.ENUM,
-        values: ["yes", "no"],
-        defaultValue: "no",
+        values: [true, false],
+        defaultValue: false,
       },
       rapidAntigenTest: {
         type: DataTypes.ENUM,
-        values: ["yes", "no"],
-        defaultValue: "no",
+        values: [true, false],
+        defaultValue: false,
       },
       genose: {
         type: DataTypes.ENUM,
-        values: ["yes", "no"],
-        defaultValue: "no",
+        values: [true, false],
+        defaultValue: false,
       },
       createdAt: {
         type: DataTypes.DATE,

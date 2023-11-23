@@ -10,35 +10,25 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      hospitalId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: {
-            tableName: "hospitals",
-          },
-          key: "id",
-        },
-      },
       vaccin: {
         type: Sequelize.ENUM,
-        values: ["yes", "no"],
-        defaultValue: "no",
+        values: [true, false],
+        defaultValue: false,
       },
       pcrTest: {
         type: Sequelize.ENUM,
-        values: ["yes", "no"],
-        defaultValue: "no",
+        values: [true, false],
+        defaultValue: false,
       },
       rapidAntigenTest: {
         type: Sequelize.ENUM,
-        values: ["yes", "no"],
-        defaultValue: "no",
+        values: [true, false],
+        defaultValue: false,
       },
       genose: {
         type: Sequelize.ENUM,
-        values: ["yes", "no"],
-        defaultValue: "no",
+        values: [true, false],
+        defaultValue: false,
       },
       createdAt: {
         type: Sequelize.DATE,
