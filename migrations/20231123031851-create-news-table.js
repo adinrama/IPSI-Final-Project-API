@@ -19,8 +19,11 @@ module.exports = {
         allowNull: false,
       },
       tags: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
-        defaultValue: ["kesehatan", "covid-19"],
+        type: Sequelize.TEXT,
+        defaultValue: '["kesehatan", "covid-19"]',
+        get() {
+          return JSON.parse(this.getDataValue("tags"));
+        },
       },
       createdAt: {
         type: Sequelize.DATE,
