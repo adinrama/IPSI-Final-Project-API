@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const VaccinBooking = sequelize.define(
-    "VaccinBooking",
+  const Booking = sequelize.define(
+    "Booking",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -30,8 +30,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
     },
-    { tableName: "vaccin-bookings" }
+    { tableName: "bookings" }
   );
 
-  return VaccinBooking;
+  return Booking;
 };
