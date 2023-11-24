@@ -9,7 +9,7 @@ const verifyRoles = async (req, res, next) => {
     ? req.headers.authorization.replace("Bearer ", "")
     : null;
 
-  const getRsAdminId = jwt.verify(token, SECRET_KEY, (err, decoded) => {
+  const getId = jwt.verify(token, SECRET_KEY, (err, decoded) => {
     if (err) {
       return res.status(403).json({
         message: "Invalid token",
@@ -22,10 +22,14 @@ const verifyRoles = async (req, res, next) => {
   });
 
   const findRsAdmin = await User.findOne({
-    where: { id: getRsAdminId, roles: "rsadmin" },
+    where: { id: getId, roles: "rsadmin" },
   });
 
-  if (findRsAdmin) {
+  const findSysAdmin = await User.findOne({
+    where: { id: getId, roles: "sysadmin" },
+  });
+
+  if (findRsAdmin || findSysAdmin) {
     next();
   } else {
     return res.status(401).json({
