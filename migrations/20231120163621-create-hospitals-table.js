@@ -10,14 +10,14 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      rsAdminId: {
-        type: Sequelize.INTEGER,
+      rsAdminEmail: {
+        type: Sequelize.STRING,
         allowNull: false,
         references: {
           model: {
             tableName: "users",
           },
-          key: "id",
+          key: "email",
         },
       },
       name: {
