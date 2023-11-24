@@ -39,7 +39,7 @@ router.post("/", verifyToken, verifyRoles, async (req, res) => {
 
   if (findHospital) {
     return res.status(400).json({
-      message: "Email already exist",
+      message: "Hospital's email already exist",
       status: "Failed",
     });
   }
@@ -47,6 +47,13 @@ router.post("/", verifyToken, verifyRoles, async (req, res) => {
   const rsAdmin = await User.findOne({
     where: { email: req.body.rsAdminEmail },
   });
+
+  if (!rsAdmin) {
+    return res.status(400).json({
+      message: "Admin's email not found",
+      status: "Failed",
+    });
+  }
 
   const rsAdminId = rsAdmin.id;
   const servicesId = null;

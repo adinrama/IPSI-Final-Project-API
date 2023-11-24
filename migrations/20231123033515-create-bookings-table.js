@@ -10,9 +10,17 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
+      scheduleId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: "schedules",
+          },
+          key: "id",
+        },
+      },
       userId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
           model: {
             tableName: "users",
@@ -22,7 +30,6 @@ module.exports = {
       },
       hospitalId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         references: {
           model: {
             tableName: "hospitals",
@@ -30,10 +37,51 @@ module.exports = {
           key: "id",
         },
       },
+      firstName: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      lastName: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      NIK: {
+        type: Sequelize.STRING(16),
+        allowNull: false,
+      },
+      gender: {
+        type: Sequelize.ENUM,
+        values: ["male", "female"],
+        allowNull: false,
+      },
+      dateOfBirth: {
+        type: Sequelize.STRING(10),
+        allowNull: false,
+      },
+      age: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      mobile: {
+        type: Sequelize.STRING(13),
+        allowNull: false,
+      },
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      address: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+      },
       status: {
         type: Sequelize.ENUM,
-        values: ["Pendaftaran masih diproses", "Terdaftar", "Gagal"],
-        defaultValue: "Pendaftaran masih diproses",
+        values: [
+          "Registration is still being processed",
+          "You are registered",
+          "Failed",
+        ],
+        defaultValue: "Registration is still being processed",
       },
       createdAt: {
         type: Sequelize.DATE,

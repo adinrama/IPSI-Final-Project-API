@@ -106,7 +106,7 @@ router.get("/:id", verifyToken, async (req, res) => {
     return res.status(404).json({ message: "User not found" });
   }
 
-  res.status(200).json({ user, user: req.decoded });
+  res.status(200).json({ data: user, user: req.decoded });
 });
 
 router.put("/:id", verifyToken, async (req, res) => {
