@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         allowNull: false,
       },
+      hospitalEmail: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       vaccin: {
         type: DataTypes.ENUM,
         values: ["yes", "no"],

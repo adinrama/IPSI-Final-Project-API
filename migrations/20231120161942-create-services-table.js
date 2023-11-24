@@ -10,6 +10,10 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
+      hospitalEmail: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       vaccin: {
         type: Sequelize.ENUM,
         values: ["yes", "no"],
