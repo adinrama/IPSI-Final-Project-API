@@ -53,10 +53,6 @@ router.post("/:id", verifyToken, async (req, res) => {
     where: { rsAdminId: getId },
   });
 
-  const schedule = await Schedule.findOne({
-    where: { hospitalId: hospital.id },
-  });
-
   const userId = getId;
   const hospitalId = hospital.id;
   const scheduleId = id;

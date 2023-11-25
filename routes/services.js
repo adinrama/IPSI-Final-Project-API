@@ -45,7 +45,9 @@ router.post("/", verifyToken, verifyRoles, async (req, res) => {
 
   await hospital.update({ servicesId: service.id });
 
-  await serviceOld.destroy();
+  if (serviceOld) {
+    await serviceOld.destroy();
+  }
 
   res.status(201).json({
     message: "Service added successfully",

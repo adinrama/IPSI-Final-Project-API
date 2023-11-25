@@ -59,7 +59,15 @@ router.get("/:userId", verifyToken, async (req, res) => {
     return res.status(404).json({ message: "Histories not found" });
   }
 
-  res.status(200).json({ data: booking, booking: req.decoded });
+  const history = await History.findOne({
+    where: { bookingId: booking.id },
+  });
+
+  res.status(200).json({
+    dataBooking: booking,
+    dataHistory: history,
+    booking: req.decoded,
+  });
 });
 
 module.exports = router;
