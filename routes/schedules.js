@@ -15,9 +15,6 @@ router.post("/", verifyToken, verifyRoles, async (req, res) => {
     available: "string",
   };
 
-  const createdAt = new Date().toISOString();
-  const updatedAt = createdAt;
-
   const validate = v.validate(req.body, schema);
 
   if (validate.length) {
@@ -28,20 +25,20 @@ router.post("/", verifyToken, verifyRoles, async (req, res) => {
     ? req.headers.authorization.replace("Bearer ", "")
     : null;
 
-  const getEmail = jwt.verify(token, SECRET_KEY, (err, decoded) => {
+  const getRsAdminId = jwt.verify(token, SECRET_KEY, (err, decoded) => {
     if (err) {
       return res.status(403).json({
         message: "Invalid token",
         status: "Failed",
       });
     }
-    const email = decoded.email;
-    console.log("User Email:", email);
-    return email;
+    const userId = decoded.userId;
+    console.log("User ID:", userId);
+    return userId;
   });
 
   const hospital = await Hospital.findOne({
-    where: { rsAdminEmail: getEmail },
+    where: { rsAdminId: getRsAdminId },
   });
 
   const hospitalId = hospital.id;
@@ -49,20 +46,23 @@ router.post("/", verifyToken, verifyRoles, async (req, res) => {
   const schedule = await Schedule.create({
     hospitalId,
     ...req.body,
-    createdAt,
-    updatedAt,
   });
 
   res.status(201).json({
     message: "Schedule created successfully",
     status: "Success",
+    hospital: hospital.name,
     data: schedule,
+    userAccess: req.decoded,
   });
 });
 
 router.get("/", verifyToken, async (req, res) => {
   const schedules = await Schedule.findAll();
-  res.status(200).json(schedules);
+  res.status(200).json({
+    schedules,
+    userAccess: req.decoded,
+  });
 });
 
 router.get("/:id", verifyToken, async (req, res) => {
@@ -77,7 +77,15 @@ router.get("/:id", verifyToken, async (req, res) => {
     });
   }
 
-  res.status(200).json({ data: schedule, schedule: req.decoded });
+  const hospital = await Hospital.findOne({
+    where: { id: schedule.hospitalId },
+  });
+
+  res.status(200).json({
+    hospital: hospital.name,
+    data: schedule,
+    schedule: req.decoded,
+  });
 });
 
 router.put("/:id", verifyToken, verifyRoles, async (req, res) => {
@@ -106,6 +114,7 @@ router.put("/:id", verifyToken, verifyRoles, async (req, res) => {
       message: "Schedule data updated successfully",
       status: "Success",
       data: schedule,
+      userAccess: req.decoded,
     });
   } catch (err) {
     console.error("Error:", err);
