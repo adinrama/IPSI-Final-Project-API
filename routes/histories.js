@@ -52,7 +52,7 @@ router.post("/", verifyToken, verifyRoles, async (req, res) => {
 router.get("/:userId", verifyToken, async (req, res) => {
   const { userId } = req.params;
 
-  const booking = await Booking.findAll({
+  const booking = await Booking.findOne({
     where: { userId },
   });
 
@@ -63,7 +63,7 @@ router.get("/:userId", verifyToken, async (req, res) => {
     });
   }
 
-  const history = await History.findAll({
+  const history = await History.findOne({
     where: { bookingId: booking.id },
   });
 
