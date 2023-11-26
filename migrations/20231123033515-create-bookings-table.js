@@ -28,15 +28,6 @@ module.exports = {
           key: "id",
         },
       },
-      hospitalId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: {
-            tableName: "hospitals",
-          },
-          key: "id",
-        },
-      },
       firstName: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -84,11 +75,11 @@ module.exports = {
         defaultValue: "Registration is still being processed",
       },
       createdAt: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false,
       },
       updatedAt: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false,
       },
     });

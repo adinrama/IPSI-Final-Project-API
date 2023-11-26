@@ -16,10 +16,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      hospitalId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
       firstName: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -67,11 +63,11 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: "Registration is still being processed",
       },
       createdAt: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false,
       },
       updatedAt: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false,
       },
     },

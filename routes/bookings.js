@@ -9,7 +9,7 @@ const verifyRoles = require("../middleware/verifyRoles");
 const Validator = require("fastest-validator");
 const v = new Validator();
 
-router.post("/:id", verifyToken, async (req, res) => {
+router.post("/schedule/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
 
   const schema = {
@@ -24,9 +24,6 @@ router.post("/:id", verifyToken, async (req, res) => {
     address: "string",
   };
 
-  const createdAt = new Date().toISOString();
-  const updatedAt = createdAt;
-
   const validate = v.validate(req.body, schema);
 
   if (validate.length) {
@@ -37,7 +34,7 @@ router.post("/:id", verifyToken, async (req, res) => {
     ? req.headers.authorization.replace("Bearer ", "")
     : null;
 
-  const getId = jwt.verify(token, SECRET_KEY, (err, decoded) => {
+  const getUserId = jwt.verify(token, SECRET_KEY, (err, decoded) => {
     if (err) {
       return res.status(403).json({
         message: "Invalid token",
@@ -49,12 +46,7 @@ router.post("/:id", verifyToken, async (req, res) => {
     return userId;
   });
 
-  const hospital = await Hospital.findOne({
-    where: { rsAdminId: getId },
-  });
-
-  const userId = getId;
-  const hospitalId = hospital.id;
+  const userId = getUserId;
   const scheduleId = id;
 
   const findSchedule = await Schedule.findByPk(scheduleId);
@@ -69,10 +61,7 @@ router.post("/:id", verifyToken, async (req, res) => {
   const booking = await Booking.create({
     scheduleId,
     userId,
-    hospitalId,
     ...req.body,
-    createdAt,
-    updatedAt,
   });
 
   await findSchedule.update({ available: "no" });
@@ -81,6 +70,7 @@ router.post("/:id", verifyToken, async (req, res) => {
     message: "Booking ticket created successfully",
     status: "Success",
     data: booking,
+    userAccess: req.decoded,
   });
 });
 
@@ -115,6 +105,7 @@ router.put("/:id", verifyToken, verifyRoles, async (req, res) => {
       message: "Booking ticket updated successfully",
       status: "Success",
       data: booking,
+      userAccess: req.decoded,
     });
   } catch (err) {
     console.error("Error:", err);
