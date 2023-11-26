@@ -33,11 +33,11 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: "no",
       },
       createdAt: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false,
       },
       updatedAt: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false,
       },
     },

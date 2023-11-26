@@ -15,9 +15,6 @@ router.post("/", verifyToken, verifyRoles, async (req, res) => {
     genose: "string",
   };
 
-  const createdAt = new Date().toISOString();
-  const updatedAt = createdAt;
-
   const validate = v.validate(req.body, schema);
 
   if (validate.length) {
@@ -37,11 +34,7 @@ router.post("/", verifyToken, verifyRoles, async (req, res) => {
 
   const serviceOld = await Service.findByPk(hospital.servicesId);
 
-  const service = await Service.create({
-    ...req.body,
-    createdAt,
-    updatedAt,
-  });
+  const service = await Service.create({ ...req.body });
 
   await hospital.update({ servicesId: service.id });
 
@@ -53,6 +46,7 @@ router.post("/", verifyToken, verifyRoles, async (req, res) => {
     message: "Service added successfully",
     status: "Success",
     data: service,
+    userAccess: req.decoded,
   });
 });
 
@@ -84,6 +78,7 @@ router.put("/:id", verifyToken, verifyRoles, async (req, res) => {
       message: "Services data updated successfully",
       status: "Success",
       data: services,
+      userAccess: req.decoded,
     });
   } catch (err) {
     console.error("Error:", err);
