@@ -3,6 +3,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
+const serverless = require("serverless-http");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
@@ -23,12 +24,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/v1/users", usersRouter);
-app.use("/v1/hospitals", hospitalsRouter);
-app.use("/v1/services", servicesRouter);
-app.use("/v1/schedules", schedulesRouter);
-app.use("/v1/bookings", bookingsRouter);
-app.use("/v1/histories", historiesRouter);
-app.use("/v1/news", newsRouter);
+app.use("/.netlify/functions/api/v1/users", usersRouter);
+app.use("/.netlify/functions/api/v1/hospitals", hospitalsRouter);
+app.use("/.netlify/functions/api/v1/services", servicesRouter);
+app.use("/.netlify/functions/api/v1/schedules", schedulesRouter);
+app.use("/.netlify/functions/api/v1/bookings", bookingsRouter);
+app.use("/.netlify/functions/api/v1/histories", historiesRouter);
+app.use("/.netlify/functions/api/v1/news", newsRouter);
 
-module.exports = app;
+module.exports.handler = serverless(app);
