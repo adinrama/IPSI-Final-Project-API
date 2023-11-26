@@ -14,6 +14,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      username: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       mobile: {
         type: Sequelize.STRING(13),
         allowNull: false,
@@ -36,8 +40,6 @@ module.exports = {
         values: ["single", "married"],
         allowNull: false,
       },
-      placeOfBirth: Sequelize.DATE,
-      dateOfBirth: Sequelize.DATE,
       roles: {
         type: Sequelize.ENUM,
         values: ["patient", "rsadmin", "sysadmin"],
@@ -48,11 +50,11 @@ module.exports = {
         allowNull: false,
       },
       createdAt: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false,
       },
       updatedAt: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false,
       },
     });

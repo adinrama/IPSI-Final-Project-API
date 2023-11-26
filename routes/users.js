@@ -11,6 +11,7 @@ const v = new Validator();
 router.post("/register", async (req, res) => {
   const schema = {
     fullName: "string|empty:false",
+    username: "string|empty:false",
     mobile: "string",
     email: "string|email",
     password: "string",
@@ -18,9 +19,6 @@ router.post("/register", async (req, res) => {
     status: "string",
     address: "string",
   };
-
-  const createdAt = new Date().toISOString();
-  const updatedAt = createdAt;
 
   const validate = v.validate(req.body, schema);
 
@@ -36,40 +34,49 @@ router.post("/register", async (req, res) => {
     where: { mobile: req.body.mobile },
   });
 
-  if (findEmail || findMobile) {
+  const findUsername = await User.findOne({
+    where: { username: req.body.username },
+  });
+
+  if (findEmail) {
     return res.status(400).json({
-      message: "Email or mobile already exist",
+      message: "Email already exist",
       status: "Failed",
     });
   }
 
-  const user = await User.create({ ...req.body, createdAt, updatedAt });
+  if (findUsername) {
+    return res.status(400).json({
+      message: "Username already exist",
+      status: "Failed",
+    });
+  }
+
+  if (findMobile) {
+    return res.status(400).json({
+      message: "Mobile number already exist",
+      status: "Failed",
+    });
+  }
+
+  const user = await User.create({ ...req.body });
   res.status(201).json({
-    message: "User added successfully",
+    message: "Registration successfully",
     status: "Success",
     data: user,
   });
 });
 
 router.post("/login", async (req, res) => {
-  const input = {
-    email: "string|email",
-    password: "string",
-  };
-
-  const validate = v.validate(req.body, input);
-
-  if (validate.length) {
-    return res.status(400).json(validate);
-  }
+  const { username, password } = req.body;
 
   const user = await User.findOne({
-    where: { email: req.body.email },
+    where: { username: req.body.username },
   });
 
   if (!user) {
     return res.status(401).json({
-      message: "Invalid email credentials",
+      message: "Invalid credentials",
       status: "Failed",
     });
   }
@@ -78,14 +85,18 @@ router.post("/login", async (req, res) => {
 
   if (!passwordMatch) {
     return res.status(401).json({
-      message: "Invalid password credentials",
+      message: "Invalid credentials",
       status: "Failed",
     });
   }
 
-  user.token = jwt.sign({ userId: user.id, email: user.email }, SECRET_KEY, {
-    expiresIn: "10h",
-  });
+  user.token = jwt.sign(
+    { userId: user.id, username: user.username },
+    SECRET_KEY,
+    {
+      expiresIn: "10h",
+    }
+  );
 
   await user.update(user.token);
 
@@ -93,6 +104,7 @@ router.post("/login", async (req, res) => {
     message: "Successfully login",
     status: "Success",
     id: user.id,
+    user: user.fullName,
     token: user.token,
   });
 });
@@ -103,10 +115,13 @@ router.get("/:id", verifyToken, async (req, res) => {
   const user = await User.findByPk(id);
 
   if (!user) {
-    return res.status(404).json({ message: "User not found" });
+    return res.status(404).json({
+      message: "User not found",
+      status: "Failed",
+    });
   }
 
-  res.status(200).json({ data: user, user: req.decoded });
+  res.status(200).json({ data: user, userAccess: req.decoded });
 });
 
 router.put("/:id", verifyToken, async (req, res) => {
@@ -140,6 +155,7 @@ router.put("/:id", verifyToken, async (req, res) => {
       message: "User data updated successfully",
       status: "Success",
       data: user,
+      userAccess: req.decoded,
     });
   } catch (err) {
     console.error("Error:", err);
@@ -166,8 +182,9 @@ router.delete("/:id", verifyToken, async (req, res) => {
     await user.destroy();
 
     return res.status(201).json({
-      message: "User successfully deleted",
+      message: `User ${user.fullName} successfully deleted`,
       status: "Success",
+      userAccess: req.decoded,
     });
   } catch (err) {
     console.error("Error:", err);
