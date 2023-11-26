@@ -8,7 +8,7 @@ const v = new Validator();
 
 router.get("/", verifyToken, async (req, res) => {
   const hospitals = await Hospital.findAll();
-  res.status(200).json(hospitals);
+  res.status(200).json({ hospitals, userAccess: req.decoded });
 });
 
 router.post("/", verifyToken, verifyRoles, async (req, res) => {
@@ -23,9 +23,6 @@ router.post("/", verifyToken, verifyRoles, async (req, res) => {
     owner: "string",
     address: "string",
   };
-
-  const createdAt = new Date().toISOString();
-  const updatedAt = createdAt;
 
   const validate = v.validate(req.body, schema);
 
@@ -44,8 +41,19 @@ router.post("/", verifyToken, verifyRoles, async (req, res) => {
     });
   }
 
+  const findRsAdminEmail = await Hospital.findOne({
+    where: { rsAdminEmail: req.body.rsAdminEmail },
+  });
+
+  if (findRsAdminEmail) {
+    return res.status(400).json({
+      message: "Hospital admin's email already exist",
+      status: "Failed",
+    });
+  }
+
   const rsAdmin = await User.findOne({
-    where: { email: req.body.rsAdminEmail },
+    where: { email: req.body.rsAdminEmail, roles: "rsadmin" },
   });
 
   if (!rsAdmin) {
@@ -62,14 +70,13 @@ router.post("/", verifyToken, verifyRoles, async (req, res) => {
     rsAdminId,
     ...req.body,
     servicesId,
-    createdAt,
-    updatedAt,
   });
 
   res.status(201).json({
     message: "Hospital added successfully",
     status: "Success",
     data: hospital,
+    userAccess: req.decoded,
   });
 });
 
@@ -85,6 +92,7 @@ router.put("/:id", verifyToken, verifyRoles, async (req, res) => {
     usage_status: "string",
     owner: "string",
     address: "string",
+    servicesId: "number",
   };
 
   const updatedAt = new Date().toISOString();
@@ -105,6 +113,7 @@ router.put("/:id", verifyToken, verifyRoles, async (req, res) => {
       message: "Hospital data updated successfully",
       status: "Success",
       data: hospital,
+      userAccess: req.decoded,
     });
   } catch (err) {
     console.error("Error:", err);
