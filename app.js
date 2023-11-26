@@ -11,6 +11,7 @@ const servicesRouter = require("./routes/services");
 const schedulesRouter = require("./routes/schedules");
 const bookingsRouter = require("./routes/bookings");
 const historiesRouter = require("./routes/histories");
+const newsRouter = require("./routes/news");
 
 const app = express();
 
@@ -28,5 +29,6 @@ app.use("/v1/services", servicesRouter);
 app.use("/v1/schedules", schedulesRouter);
 app.use("/v1/bookings", bookingsRouter);
 app.use("/v1/histories", historiesRouter);
+app.use("/v1/news", newsRouter);
 
 module.exports = app;
