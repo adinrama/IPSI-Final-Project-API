@@ -13,16 +13,15 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       historyStatus: {
-        type: DataTypes.ENUM,
-        values: ["Have been vaccinated", "Have taken a covid-19 test"],
+        type: DataTypes.STRING,
         allowNull: false,
       },
       createdAt: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false,
       },
       updatedAt: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false,
       },
     },

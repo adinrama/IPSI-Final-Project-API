@@ -9,11 +9,7 @@ const v = new Validator();
 router.post("/", verifyToken, verifyRoles, async (req, res) => {
   const schema = {
     bookingId: "number",
-    historyStatus: "string",
   };
-
-  const createdAt = new Date().toISOString();
-  const updatedAt = createdAt;
 
   const validate = v.validate(req.body, schema);
 
@@ -21,7 +17,16 @@ router.post("/", verifyToken, verifyRoles, async (req, res) => {
     return res.status(400).json(validate);
   }
 
-  const history = await History.findOne({
+  const booking = await Booking.findByPk(req.body.bookingId);
+
+  if (!booking) {
+    return res.status(404).json({
+      message: "Booking ticket not found",
+      status: "Failed",
+    });
+  }
+
+  let history = await History.findOne({
     where: { bookingId: req.body.bookingId },
   });
 
@@ -32,34 +37,33 @@ router.post("/", verifyToken, verifyRoles, async (req, res) => {
     });
   }
 
-  const booking = await Booking.findByPk(req.body.bookingId);
+  const historyStatus = "Has been vaccinated";
 
-  if (booking.status != "You are registered") {
-    return res.status(400).json({
-      message: "Can't add history",
-      status: "Failed",
-    });
-  }
+  history = await History.create({ ...req.body, historyStatus });
 
   res.status(201).json({
     message: "Successfully add history",
     status: "Success",
-    data: await History.create({ ...req.body }),
+    historyStatus: historyStatus,
+    data: history,
   });
 });
 
 router.get("/:userId", verifyToken, async (req, res) => {
   const { userId } = req.params;
 
-  const booking = await Booking.findOne({
+  const booking = await Booking.findAll({
     where: { userId },
   });
 
   if (!booking) {
-    return res.status(404).json({ message: "Histories not found" });
+    return res.status(404).json({
+      message: "User has not placed an order yet",
+      status: "Failed",
+    });
   }
 
-  const history = await History.findOne({
+  const history = await History.findAll({
     where: { bookingId: booking.id },
   });
 

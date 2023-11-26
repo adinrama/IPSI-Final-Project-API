@@ -21,16 +21,15 @@ module.exports = {
         },
       },
       historyStatus: {
-        type: Sequelize.ENUM,
-        values: ["Have been vaccinated", "Have taken a covid-19 test"],
+        type: Sequelize.STRING,
         allowNull: false,
       },
       createdAt: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false,
       },
       updatedAt: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false,
       },
     });
