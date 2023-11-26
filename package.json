@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "start": "./node_modules/.bin/netlify-lambda serve src",
+    "build": "./node_modules/.bin/netlify-lambda build src",
     "starting": "node ./bin/www",
-    "start": "./node_modules/.bin/netlify-lambda serve app",
-    "build": "./node_modules/.bin/netlify-lambda serve app",
-    "dev": "nodemon ./bin/www"
+    "dev": "nodemon ./src/api.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
