@@ -20,6 +20,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      createdAt: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+      },
     },
     { tableName: "vaccine_tickets" }
   );

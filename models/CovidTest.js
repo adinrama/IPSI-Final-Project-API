@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const VaccineResult = sequelize.define(
-    "VaccineResult",
+  const CovidTest = sequelize.define(
+    "CovidTest",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -8,18 +8,13 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         allowNull: false,
       },
-      bookingId: {
-        type: DataTypes.INTEGER,
+      testDate: {
+        type: DataTypes.STRING,
         allowNull: false,
-      },
-      certificateId: {
-        type: DataTypes.STRING,
-      },
-      vaccineDate: {
-        type: DataTypes.STRING,
       },
       time: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       firstName: {
         type: DataTypes.STRING,
@@ -31,25 +26,32 @@ module.exports = (sequelize, DataTypes) => {
       },
       NIK: {
         type: DataTypes.STRING(16),
+        allowNull: false,
       },
       gender: {
         type: DataTypes.ENUM,
         values: ["male", "female"],
+        allowNull: false,
       },
       dateOfBirth: {
         type: DataTypes.STRING(10),
+        allowNull: false,
       },
       age: {
         type: DataTypes.INTEGER,
+        allowNull: false,
       },
       mobile: {
         type: DataTypes.STRING(13),
+        allowNull: false,
       },
       email: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       address: {
         type: DataTypes.TEXT,
+        allowNull: false,
       },
       createdAt: {
         type: DataTypes.DATEONLY,
@@ -60,8 +62,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
     },
-    { tableName: "vaccine_results" }
+    { tableName: "covid_tests" }
   );
 
-  return VaccineResult;
+  return CovidTest;
 };

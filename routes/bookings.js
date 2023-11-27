@@ -116,6 +116,8 @@ router.put("/:id", verifyToken, verifyRoles, async (req, res) => {
     await booking.update({ ...req.body });
     await VaccineResult.create({
       bookingId: booking.id,
+      firstName: booking.firstName,
+      lastName: booking.lastName,
     });
 
     return res.status(201).json({

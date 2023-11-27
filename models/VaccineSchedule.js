@@ -25,6 +25,14 @@ module.exports = (sequelize, DataTypes) => {
         values: ["yes", "no"],
         defaultValue: "yes",
       },
+      createdAt: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+      },
     },
     { tableName: "vaccine_schedules" }
   );

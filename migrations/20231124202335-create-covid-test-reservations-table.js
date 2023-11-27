@@ -3,31 +3,20 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("vaccine_results", {
+    await queryInterface.createTable("covid_tests", {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
       },
-      bookingId: {
-        type: Sequelize.INTEGER,
+      testDate: {
+        type: Sequelize.STRING,
         allowNull: false,
-        references: {
-          model: {
-            tableName: "bookings",
-          },
-          key: "id",
-        },
-      },
-      certificateId: {
-        type: Sequelize.STRING,
-      },
-      vaccineDate: {
-        type: Sequelize.STRING,
       },
       time: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       firstName: {
         type: Sequelize.STRING,
@@ -39,25 +28,32 @@ module.exports = {
       },
       NIK: {
         type: Sequelize.STRING(16),
+        allowNull: false,
       },
       gender: {
         type: Sequelize.ENUM,
         values: ["male", "female"],
+        allowNull: false,
       },
       dateOfBirth: {
         type: Sequelize.STRING(10),
+        allowNull: false,
       },
       age: {
         type: Sequelize.INTEGER,
+        allowNull: false,
       },
       mobile: {
         type: Sequelize.STRING(13),
+        allowNull: false,
       },
       email: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       address: {
         type: Sequelize.TEXT,
+        allowNull: false,
       },
       createdAt: {
         type: Sequelize.DATEONLY,
@@ -71,6 +67,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("vaccine_results");
+    await queryInterface.dropTable("covid_tests");
   },
 };

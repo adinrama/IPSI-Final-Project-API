@@ -58,6 +58,14 @@ module.exports = (sequelize, DataTypes) => {
         values: ["Pendaftaran Anda Sedang Diproses..", "Anda Telah Terdaftar!"],
         defaultValue: "Pendaftaran Anda Sedang Diproses..",
       },
+      createdAt: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+      },
     },
     { tableName: "bookings" }
   );

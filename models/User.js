@@ -44,6 +44,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: false,
       },
+      createdAt: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+      },
     },
     { tableName: "users" }
   );
