@@ -16,7 +16,6 @@ router.post("/register", async (req, res) => {
     email: "string|email",
     password: "string",
     gender: "string",
-    status: "string",
     address: "string",
   };
 
@@ -74,16 +73,9 @@ router.post("/login", async (req, res) => {
     where: { username: req.body.username },
   });
 
-  if (!user) {
-    return res.status(401).json({
-      message: "Invalid credentials",
-      status: "Failed",
-    });
-  }
-
   const passwordMatch = await user.validPassword(req.body.password);
 
-  if (!passwordMatch) {
+  if (!user && !passwordMatch) {
     return res.status(401).json({
       message: "Invalid credentials",
       status: "Failed",
@@ -133,11 +125,10 @@ router.put("/:id", verifyToken, async (req, res) => {
     email: "string|email",
     password: "string",
     gender: "string",
-    status: "string",
     address: "string",
   };
 
-  const updatedAt = new Date().toISOString();
+  const updatedAt = new Date();
 
   try {
     const user = await User.findByPk(id);
