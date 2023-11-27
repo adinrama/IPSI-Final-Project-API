@@ -22,6 +22,7 @@ router.get("/:id", verifyToken, async (req, res) => {
 
   res.status(200).json({
     status: "Success",
+    certificate,
     booking,
     userAccess: req.decoded,
   });
