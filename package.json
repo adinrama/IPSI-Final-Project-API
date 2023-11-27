@@ -1,12 +1,10 @@
 {
   "name": "final-project-api",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "./node_modules/.bin/netlify-lambda serve src",
-    "build": "./node_modules/.bin/netlify-lambda build src",
-    "starting": "node ./bin/www",
-    "dev": "nodemon ./src/api.js"
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -19,7 +17,6 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "~1.9.1",
     "mysql2": "^3.6.3",
-    "netlify-lambda": "^2.0.16",
     "sequelize": "^6.35.1",
     "sequelize-cli": "^6.6.2",
     "serverless-http": "^3.2.0"
