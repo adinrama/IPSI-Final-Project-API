@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const Schedule = sequelize.define(
-    "Schedule",
+  const VaccineSchedule = sequelize.define(
+    "VaccineSchedule",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -8,30 +8,26 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         allowNull: false,
       },
-      hospitalId: {
-        type: DataTypes.INTEGER,
+      scheduleDate: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
       scheduleTime: {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      location: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
       available: {
         type: DataTypes.ENUM,
         values: ["yes", "no"],
-        allowNull: false,
-      },
-      createdAt: {
-        type: DataTypes.DATEONLY,
-        allowNull: false,
-      },
-      updatedAt: {
-        type: DataTypes.DATEONLY,
-        allowNull: false,
+        defaultValue: "yes",
       },
     },
-    { tableName: "schedules" }
+    { tableName: "vaccine_schedules" }
   );
 
-  return Schedule;
+  return VaccineSchedule;
 };

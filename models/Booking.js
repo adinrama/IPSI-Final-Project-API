@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         allowNull: false,
       },
-      scheduleId: {
+      vaccineScheduleId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
@@ -55,20 +55,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       status: {
         type: DataTypes.ENUM,
-        values: [
-          "Registration is still being processed",
-          "You are registered",
-          "Failed",
-        ],
-        defaultValue: "Registration is still being processed",
-      },
-      createdAt: {
-        type: DataTypes.DATEONLY,
-        allowNull: false,
-      },
-      updatedAt: {
-        type: DataTypes.DATEONLY,
-        allowNull: false,
+        values: ["Pendaftaran Anda Sedang Diproses..", "Anda Telah Terdaftar!"],
+        defaultValue: "Pendaftaran Anda Sedang Diproses..",
       },
     },
     { tableName: "bookings" }

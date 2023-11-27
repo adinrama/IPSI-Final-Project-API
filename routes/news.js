@@ -7,6 +7,7 @@ const v = new Validator();
 
 router.post("/", verifyToken, async (req, res) => {
   const schema = {
+    photo: "string",
     title: "string",
     article: "string",
   };

@@ -3,13 +3,18 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const { SECRET_KEY } = process.env;
-const { Hospital, Schedule, Booking } = require("../models");
+const {
+  VaccineSchedule,
+  VaccineTicket,
+  VaccineResult,
+  Booking,
+} = require("../models");
 const verifyToken = require("../middleware/verifyToken");
 const verifyRoles = require("../middleware/verifyRoles");
 const Validator = require("fastest-validator");
 const v = new Validator();
 
-router.post("/schedule/:id", verifyToken, async (req, res) => {
+router.post("/vaccine-schedule/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
 
   const schema = {
@@ -47,11 +52,11 @@ router.post("/schedule/:id", verifyToken, async (req, res) => {
   });
 
   const userId = getUserId;
-  const scheduleId = id;
+  const vaccineScheduleId = id;
 
-  const findSchedule = await Schedule.findByPk(scheduleId);
+  const findVaccineSchedule = await VaccineSchedule.findByPk(vaccineScheduleId);
 
-  if (findSchedule.available == "no") {
+  if (findVaccineSchedule.available == "no") {
     return res.status(400).json({
       message: "The schedule has been booked",
       status: "Failed",
@@ -59,12 +64,18 @@ router.post("/schedule/:id", verifyToken, async (req, res) => {
   }
 
   const booking = await Booking.create({
-    scheduleId,
+    vaccineScheduleId,
     userId,
     ...req.body,
   });
 
-  await findSchedule.update({ available: "no" });
+  await findVaccineSchedule.update({ available: "no" });
+
+  await VaccineTicket.create({
+    userId,
+    vaccineScheduleId: findVaccineSchedule.id,
+    bookingId: booking.id,
+  });
 
   res.status(201).json({
     message: "Booking ticket created successfully",
@@ -80,8 +91,6 @@ router.put("/:id", verifyToken, verifyRoles, async (req, res) => {
   const schema = {
     status: "string",
   };
-
-  const updatedAt = new Date().toISOString();
 
   const validate = v.validate(req.body, schema);
 
@@ -99,9 +108,12 @@ router.put("/:id", verifyToken, verifyRoles, async (req, res) => {
       });
     }
 
-    await booking.update({ ...req.body, updatedAt });
+    await booking.update({ ...req.body });
+    await VaccineResult.create({
+      bookingId: booking.id,
+    });
 
-    return res.status(200).json({
+    return res.status(201).json({
       message: "Booking ticket updated successfully",
       status: "Success",
       data: booking,

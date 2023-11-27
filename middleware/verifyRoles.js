@@ -22,11 +22,11 @@ const verifyRoles = async (req, res, next) => {
   });
 
   const findRsAdmin = await User.findOne({
-    where: { id: getId, roles: "rsadmin" },
+    where: { id: getId, status: "rsadmin" },
   });
 
   const findSysAdmin = await User.findOne({
-    where: { id: getId, roles: "sysadmin" },
+    where: { id: getId, status: "sysadmin" },
   });
 
   if (findRsAdmin || findSysAdmin) {

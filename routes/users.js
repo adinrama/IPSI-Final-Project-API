@@ -128,8 +128,6 @@ router.put("/:id", verifyToken, async (req, res) => {
     address: "string",
   };
 
-  const updatedAt = new Date();
-
   try {
     const user = await User.findByPk(id);
 
@@ -140,7 +138,7 @@ router.put("/:id", verifyToken, async (req, res) => {
       });
     }
 
-    await user.update({ ...req.body, updatedAt });
+    await user.update({ ...req.body });
 
     return res.status(200).json({
       message: "User data updated successfully",

@@ -10,11 +10,11 @@ module.exports = {
         autoIncrement: true,
         allowNull: false,
       },
-      scheduleId: {
+      vaccineScheduleId: {
         type: Sequelize.INTEGER,
         references: {
           model: {
-            tableName: "schedules",
+            tableName: "vaccine_schedules",
           },
           key: "id",
         },
@@ -67,20 +67,8 @@ module.exports = {
       },
       status: {
         type: Sequelize.ENUM,
-        values: [
-          "Registration is still being processed",
-          "You are registered",
-          "Failed",
-        ],
-        defaultValue: "Registration is still being processed",
-      },
-      createdAt: {
-        type: Sequelize.DATEONLY,
-        allowNull: false,
-      },
-      updatedAt: {
-        type: Sequelize.DATEONLY,
-        allowNull: false,
+        values: ["Pendaftaran Anda Sedang Diproses..", "Anda Telah Terdaftar!"],
+        defaultValue: "Pendaftaran Anda Sedang Diproses..",
       },
     });
   },

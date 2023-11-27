@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         allowNull: false,
       },
+      photo: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       title: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -16,18 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: false,
       },
-      tags: {
-        type: DataTypes.TEXT,
-        defaultValue: '["kesehatan", "covid-19"]',
-        get() {
-          return JSON.parse(this.getDataValue("tags"));
-        },
-      },
       createdAt: {
-        type: DataTypes.DATEONLY,
-        allowNull: false,
-      },
-      updatedAt: {
         type: DataTypes.DATEONLY,
         allowNull: false,
       },
