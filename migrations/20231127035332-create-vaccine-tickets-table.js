@@ -40,6 +40,14 @@ module.exports = {
           key: "id",
         },
       },
+      createdAt: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
+      },
     });
   },
 

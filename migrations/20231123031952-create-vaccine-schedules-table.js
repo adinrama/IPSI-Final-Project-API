@@ -27,6 +27,14 @@ module.exports = {
         values: ["yes", "no"],
         defaultValue: "yes",
       },
+      createdAt: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
+      },
     });
   },
 

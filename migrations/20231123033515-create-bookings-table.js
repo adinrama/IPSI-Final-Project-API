@@ -70,6 +70,14 @@ module.exports = {
         values: ["Pendaftaran Anda Sedang Diproses..", "Anda Telah Terdaftar!"],
         defaultValue: "Pendaftaran Anda Sedang Diproses..",
       },
+      createdAt: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
+      },
     });
   },
 

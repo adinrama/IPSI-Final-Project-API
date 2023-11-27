@@ -26,6 +26,10 @@ module.exports = {
         type: Sequelize.DATEONLY,
         allowNull: false,
       },
+      updatedAt: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
+      },
     });
   },
 

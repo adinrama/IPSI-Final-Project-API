@@ -44,6 +44,14 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
+      createdAt: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
+      },
     });
   },
 
