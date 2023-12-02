@@ -14,28 +14,31 @@ const verifyRoles = require("../middleware/verifyRoles");
 const Validator = require("fastest-validator");
 const v = new Validator();
 
-router.post("/vaccine-schedule/:id", verifyToken, async (req, res) => {
-  const { id } = req.params;
+router.post(
+  "/vaccine-schedule/:userId/:vaccineScheduleId",
+  verifyToken,
+  async (req, res) => {
+    const { userId, vaccineScheduleId } = req.params;
 
-  const schema = {
-    firstName: "string|empty:false",
-    lastName: "string|empty:false",
-    NIK: "string",
-    gender: "string",
-    dateOfBirth: "string",
-    age: "number",
-    mobile: "string",
-    email: "string|email",
-    address: "string",
-  };
+    const schema = {
+      firstName: "string|empty:false",
+      lastName: "string|empty:false",
+      NIK: "string",
+      gender: "string",
+      dateOfBirth: "string",
+      age: "number",
+      mobile: "string",
+      email: "string|email",
+      address: "string",
+    };
 
-  const validate = v.validate(req.body, schema);
+    const validate = v.validate(req.body, schema);
 
-  if (validate.length) {
-    return res.status(400).json(validate);
-  }
+    if (validate.length) {
+      return res.status(400).json(validate);
+    }
 
-  const token = req.headers.authorization
+    /* const token = req.headers.authorization
     ? req.headers.authorization.replace("Bearer ", "")
     : null;
 
@@ -52,43 +55,46 @@ router.post("/vaccine-schedule/:id", verifyToken, async (req, res) => {
   });
 
   const userId = getUserId;
-  const vaccineScheduleId = id;
+  const vaccineScheduleId = id; */
 
-  const findVaccineSchedule = await VaccineSchedule.findByPk(vaccineScheduleId);
+    const findVaccineSchedule = await VaccineSchedule.findByPk(
+      vaccineScheduleId
+    );
 
-  if (!findVaccineSchedule) {
-    return res.status(400).json({
-      message: "The schedule not found",
-      status: "Failed",
+    if (!findVaccineSchedule) {
+      return res.status(400).json({
+        message: "The schedule not found",
+        status: "Failed",
+      });
+    } else if (findVaccineSchedule.available == "no") {
+      return res.status(400).json({
+        message: "The schedule has been booked",
+        status: "Failed",
+      });
+    }
+
+    const booking = await Booking.create({
+      vaccineScheduleId,
+      userId,
+      ...req.body,
     });
-  } else if (findVaccineSchedule.available == "no") {
-    return res.status(400).json({
-      message: "The schedule has been booked",
-      status: "Failed",
+
+    // await findVaccineSchedule.update({ available: "no" });
+
+    await VaccineTicket.create({
+      userId,
+      vaccineScheduleId,
+      bookingId: booking.id,
+    });
+
+    res.status(201).json({
+      message: "Booking ticket created successfully",
+      status: "Success",
+      data: booking,
+      userAccess: req.decoded,
     });
   }
-
-  const booking = await Booking.create({
-    vaccineScheduleId,
-    userId,
-    ...req.body,
-  });
-
-  // await findVaccineSchedule.update({ available: "no" });
-
-  await VaccineTicket.create({
-    userId,
-    vaccineScheduleId: findVaccineSchedule.id,
-    bookingId: booking.id,
-  });
-
-  res.status(201).json({
-    message: "Booking ticket created successfully",
-    status: "Success",
-    data: booking,
-    userAccess: req.decoded,
-  });
-});
+);
 
 router.put("/:id", verifyToken, verifyRoles, async (req, res) => {
   const { id } = req.params;
