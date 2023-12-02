@@ -16,6 +16,7 @@ const v = new Validator();
 
 router.post(
   "/vaccine-schedule/:userId/:vaccineScheduleId",
+  verifyToken,
   async (req, res) => {
     const { userId, vaccineScheduleId } = req.params;
 
