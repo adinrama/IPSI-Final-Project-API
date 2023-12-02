@@ -37,12 +37,12 @@ router.post("/", verifyToken, async (req, res) => {
     });
   }
 
-  covidTest = await CovidTest.create({ ...req.body });
+  test = await CovidTest.create({ ...req.body });
 
   res.status(201).json({
     message: "Data Form Telah Disimpan!",
     status: "Success",
-    covidTest,
+    test,
     userAccess: req.decoded,
   });
 });
