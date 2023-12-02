@@ -60,7 +60,7 @@ router.post(
       vaccineScheduleId
     );
 
-    if (!findVaccineSchedule) {
+    /*if (!findVaccineSchedule) {
       return res.status(400).json({
         message: "The schedule not found",
         status: "Failed",
@@ -70,7 +70,7 @@ router.post(
         message: "The schedule has been booked",
         status: "Failed",
       });
-    }
+    }*/
 
     const booking = await Booking.create({
       vaccineScheduleId,
