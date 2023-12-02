@@ -60,12 +60,12 @@ router.post(
       vaccineScheduleId
     );
 
-    /*if (!findVaccineSchedule) {
+    if (!findVaccineSchedule) {
       return res.status(400).json({
         message: "The schedule not found",
         status: "Failed",
       });
-    } else if (findVaccineSchedule.available == "no") {
+    } /*else if (findVaccineSchedule.available == "no") {
       return res.status(400).json({
         message: "The schedule has been booked",
         status: "Failed",
