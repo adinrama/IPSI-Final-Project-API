@@ -40,7 +40,7 @@ module.exports = {
         allowNull: false,
       },
       age: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       mobile: {
