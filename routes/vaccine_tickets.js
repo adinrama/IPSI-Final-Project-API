@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { User, VaccineSchedule, Booking, VaccineTicket } = require("../models");
+const { VaccineSchedule, Booking, VaccineTicket } = require("../models");
 const verifyToken = require("../middleware/verifyToken");
 const verifyRoles = require("../middleware/verifyRoles");
 const Validator = require("fastest-validator");
@@ -30,11 +30,11 @@ router.get("/:id", verifyToken, async (req, res) => {
   });
 });
 
-router.delete("/:id", verifyToken, verifyRoles, async (req, res) => {
-  const { id } = req.params;
+router.delete("/:bookingId", verifyToken, verifyRoles, async (req, res) => {
+  const { bookingId } = req.params;
 
   const ticket = await VaccineTicket.findOne({
-    where: { userId: id },
+    where: { bookingId },
   });
 
   try {
@@ -45,11 +45,10 @@ router.delete("/:id", verifyToken, verifyRoles, async (req, res) => {
       });
     }
 
-    const user = await User.findByPk(id);
     await ticket.destroy();
 
     return res.status(201).json({
-      message: `Vaccine ticket for user ${user.fullName} successfully deleted`,
+      message: `Vaccine ticket successfully deleted`,
       status: "Success",
       userAccess: req.decoded,
     });
