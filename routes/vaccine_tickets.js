@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { User, VaccineSchedule, Booking, VaccineTicket } = require("../models");
 const verifyToken = require("../middleware/verifyToken");
+const verifyRoles = require("../middleware/verifyRoles");
 const Validator = require("fastest-validator");
 const v = new Validator();
 
