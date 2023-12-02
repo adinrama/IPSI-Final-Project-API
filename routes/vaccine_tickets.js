@@ -6,6 +6,15 @@ const verifyRoles = require("../middleware/verifyRoles");
 const Validator = require("fastest-validator");
 const v = new Validator();
 
+router.get("/", verifyToken, async (req, res) => {
+  const tickets = await VaccineTicket.findAll();
+
+  res.status(200).json({
+    status: "Success",
+    tickets,
+  });
+});
+
 router.get("/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
 
