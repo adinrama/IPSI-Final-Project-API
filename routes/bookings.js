@@ -25,7 +25,7 @@ router.post(
       NIK: "string",
       gender: "string",
       dateOfBirth: "string",
-      age: "number",
+      age: "string",
       mobile: "string",
       email: "string|email",
       address: "string",
