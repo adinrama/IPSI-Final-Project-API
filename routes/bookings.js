@@ -74,7 +74,7 @@ router.post("/vaccine-schedule/:id", verifyToken, async (req, res) => {
     ...req.body,
   });
 
-  await findVaccineSchedule.update({ available: "no" });
+  // await findVaccineSchedule.update({ available: "no" });
 
   await VaccineTicket.create({
     userId,
