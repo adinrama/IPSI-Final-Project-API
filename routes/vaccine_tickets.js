@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { VaccineSchedule, Booking, VaccineTicket } = require("../models");
+const { User, VaccineSchedule, Booking, VaccineTicket } = require("../models");
 const verifyToken = require("../middleware/verifyToken");
 const Validator = require("fastest-validator");
 const v = new Validator();
@@ -27,6 +27,38 @@ router.get("/:id", verifyToken, async (req, res) => {
     scheduleLoc: schedule.location,
     userAccess: req.decoded,
   });
+});
+
+router.delete("/:id", verifyToken, verifyRoles, async (req, res) => {
+  const { id } = req.params;
+
+  const ticket = await VaccineTicket.findOne({
+    where: { userId: id },
+  });
+
+  try {
+    if (!ticket) {
+      return res.status(404).json({
+        message: "Ticket not found",
+        status: "Failed",
+      });
+    }
+
+    const user = await User.findByPk(id);
+    await ticket.destroy();
+
+    return res.status(201).json({
+      message: `Vaccine ticket for user ${user.fullName} successfully deleted`,
+      status: "Success",
+      userAccess: req.decoded,
+    });
+  } catch (err) {
+    console.error("Error:", err);
+    return res.status(500).json({
+      message: "An error occurred while delete user data",
+      status: "Error",
+    });
+  }
 });
 
 module.exports = router;
