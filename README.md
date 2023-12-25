@@ -1,3 +1,13 @@
+# Final Project API (Vaccine Reservations)
+
+The following steps will guide you through the installation process of Final Project API for running in a development environment locally on your machine:
+
+1. Clone the latest version of this api project from the repository
+2. Run `npm install` to install the required Node.js dependencies
+3. Run `npm run start` or `npm run dev` to start the server
+4. Open your browser and go to `http://127.0.0.1:3000` to view the result
+5. Open Postman on your PC or you can use `https://testfully.io` to testing the endpoint/path usage
+
 ### Path Usage
 
 - User Login: Method `POST`
